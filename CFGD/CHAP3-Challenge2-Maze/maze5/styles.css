@@ -1,0 +1,44 @@
+/* 在 styles.css 中添加以下内容 */
+
+#app {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 这里的5需要根据您的实际网格大小调整 */
+    gap: 2px;
+}
+
+.grid-cell {
+    box-sizing: border-box;
+    height: 30px;
+    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* 根据规则设置奇数回合和偶数回合的边框颜色 */
+.grid-cell {
+    border: 1px solid black; /* 设置默认边框颜色为黑色 */
+}
+
+.grid-cell.odd-round {
+    border-color: red; /* 奇数回合边框颜色为红色 */
+}
+
+.grid-cell.even-round {
+    border-color: black; /* 偶数回合边框颜色为黑色 */
+}
+
+
+.index {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    font-size: 10px;
+    color: yellow;
+}

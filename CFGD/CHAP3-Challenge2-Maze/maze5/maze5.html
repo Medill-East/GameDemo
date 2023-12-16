@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>元胞自动机游戏</title>
+</head>
+<body>
+  <div id="app">
+    <div>
+      <label for="gridSize">网格大小 (N x N): </label>
+      <input type="number" id="gridSize" v-model="gridSize" />
+      <button @click="initializeGrid">初始化状态</button>
+      <button @click="nextRound">下一状态</button>
+      <p>当前回合数: {{ round }}</p>
+    </div>
+    <div class="grid-container">
+      <div v-for="(row, rowIndex) in grid" :key="rowIndex" class="grid-row">
+        <div
+          v-for="(cell, cellIndex) in row"
+          :key="cellIndex"
+          class="grid-cell"
+          :class="{ 'fixed-class': true }"
+          :style="{ backgroundColor: cell === 0 ? 'black' : 'white', borderColor: round % 2 === 1 ? 'red' : 'black' }"
+
+        >
+          <span class="index">{{ rowIndex * gridSize + cellIndex }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script src="app.js"></script>
+</body>
+</html>

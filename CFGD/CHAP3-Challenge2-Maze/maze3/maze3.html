@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cellular Automaton</title>
+    <style>
+        /* Add CSS styling for the grid cells */
+        .grid {
+            display: grid;
+            gap: 1px;
+            /* 移除固定列数和行数 */
+            height: 400px; /* 设置网格容器的高度，你可以根据需要调整 */
+        }
+
+        /* Add CSS styling for the grid cells */
+        .cell {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            background-color: white;
+        }
+
+        /* Define styles for Yin (0) and Yang (1) states */
+        .cell.yin {
+            background-color: black !important;
+        }
+
+        .cell.yang {
+            background-color: white !important;
+        }
+
+        /* Add styles for highlighted cells */
+        .cell.highlighted {
+            border: 2px solid red;
+        }
+
+        /* Add these rules to your existing CSS styles */
+        /* Highlight odd rows during odd rounds */
+        .row-odd {
+            border: 2px solid red;
+        }
+
+        /* Highlight even rows during even rounds */
+        .row-even {
+            border: 2px solid red;
+        }
+
+    </style>
+
+</head>
+
+<body>
+    <!-- Grid container -->
+    <div id="grid-container" class="grid"></div>
+
+    <!-- 添加输入框，使用id属性以便在JavaScript中获取其值 -->
+    <input type="number" id="grid-size-input" placeholder="Enter grid size">
+
+    <!-- 添加一个按钮，用于应用用户输入的网格大小 -->
+    <button onclick="applyCustomGridSize()">Apply Custom Size</button>
+
+
+    <!-- Add a button to toggle the initial state of cells -->
+    <button onclick="toggleInitialState()">Toggle Initial State</button>
+
+    <!-- Add a button to apply the rules -->
+    <button onclick="applyRules()">Apply Rules</button>
+
+    <!-- Add buttons to toggle between initial and game phases -->
+    <button onclick="togglePhase('initial')">Initial Phase</button>
+    <button onclick="togglePhase('game')">Game Phase</button>
+
+    <!-- Display the current phase -->
+    <div id="phase-info">Current Phase: Initial</div>
+
+    <!-- Display the round number -->
+    <div id="round-info"></div>
+
+    <script src="maze3.js"></script>
+</body>
+
+</html>

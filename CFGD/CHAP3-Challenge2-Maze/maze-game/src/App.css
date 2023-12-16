@@ -1,0 +1,39 @@
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f0f0f0;
+}
+
+.maze {
+  display: grid;
+  grid-template-columns: repeat(5, 50px); /* adjust the number of columns based on your maze dimensions */
+  grid-template-rows: repeat(5, 50px); /* adjust the number of rows based on your maze dimensions */
+  grid-gap: 2px;
+  background: #fff;
+}
+
+.maze-row {
+  display: flex;
+}
+
+.maze-cell {
+  width: 100%;
+  background: #ccc;
+}
+
+.wall {
+  background: #000;
+}
+
+.path {
+  background: #fff;
+}
+
+.player {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  background: blue;
+}
