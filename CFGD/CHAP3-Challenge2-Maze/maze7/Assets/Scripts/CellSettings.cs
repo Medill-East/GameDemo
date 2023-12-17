@@ -10,10 +10,12 @@ public class CellSettings : MonoBehaviour
 
     public bool isCurrentRound = false;
 
+    public bool isYin = false;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -27,6 +29,11 @@ public class CellSettings : MonoBehaviour
         indexText.text = input.ToString();
     }
 
+    public int GetIndex()
+    {
+        return int.Parse(indexText.text);
+    }
+
     public void IsCurrentRound()
     {
         isCurrentRound = true;
@@ -38,4 +45,20 @@ public class CellSettings : MonoBehaviour
         isCurrentRound = false;
         indexText.fontStyle = FontStyles.Normal;
     }
+
+    public void SwitchYinYang()
+    {
+        // yin to yang
+        if (isYin) 
+        {
+            isYin = false;
+            GetComponent<SpriteRenderer>().color = Color.white;
+        }
+        // yang to yin
+        else
+        {
+            isYin = true;
+            GetComponent<SpriteRenderer>().color = Color.black;
+        }
+    }   
 }

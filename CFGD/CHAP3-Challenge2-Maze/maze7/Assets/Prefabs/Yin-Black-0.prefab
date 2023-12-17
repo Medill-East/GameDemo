@@ -99,6 +99,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indexText: {fileID: 8076029144280663654}
+  isCurrentRound: 0
+  isYin: 1
 --- !u!1001 &4260622853508930080
 PrefabInstance:
   m_ObjectHideFlags: 0
