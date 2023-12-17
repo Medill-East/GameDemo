@@ -12,6 +12,8 @@ public class CellSettings : MonoBehaviour
 
     public bool isYin = false;
 
+    public bool isLocked = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,12 +39,16 @@ public class CellSettings : MonoBehaviour
     public void IsCurrentRound()
     {
         isCurrentRound = true;
+        if (isLocked) return;
+
         indexText.fontStyle = FontStyles.Underline;
     }
 
     public void IsNotCurrentRound()
     {
         isCurrentRound = false;
+        if (isLocked) return;
+
         indexText.fontStyle = FontStyles.Normal;
     }
 
@@ -60,5 +66,19 @@ public class CellSettings : MonoBehaviour
             isYin = true;
             GetComponent<SpriteRenderer>().color = Color.black;
         }
-    }   
+    }
+
+    public void OnCellClick()
+    {
+        if (!isLocked)
+        {
+            isLocked = true;
+            indexText.fontStyle = FontStyles.Strikethrough | FontStyles.Italic;
+            Debug.Log("lock cell " + indexText.text);
+        }
+        else
+        {
+            Debug.Log("cell already locked " + indexText.text);
+        }
+    }
 }

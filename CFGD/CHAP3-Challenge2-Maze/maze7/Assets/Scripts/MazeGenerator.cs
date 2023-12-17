@@ -181,64 +181,80 @@ public class MazeGenerator : MonoBehaviour
             cellSettings = cell.GetComponent<CellSettings>();
             GetIndexAndCurrentRow();
 
-            // if top row, ignore it
-            if (currentRow == gridSize)
+            // Check if the cell is locked
+            if (cellSettings.isLocked)
             {
-
+                continue; // Skip processing locked cells
             }
             else
             {
-                // if is target cell
-                if (cellSettings.isCurrentRound)
+                // if top row, ignore it
+                if (currentRow == gridSize)
                 {
-                    aboveCell = GetAboveCell(cellSettings.GetIndex());
-                    aboveCellSettings = aboveCell.GetComponent<CellSettings>();
-                    int aboveIndex = aboveCellSettings.GetIndex();
-                    //少阴->老阴，即下黑上白变为下黑上黑
-                    if (cellSettings.isYin && !aboveCellSettings.isYin)
+
+                }
+                else
+                {
+                    // if is target cell
+                    if (cellSettings.isCurrentRound)
                     {
-                        // above white -> above black
-                        Debug.Log("current index " + cellSettings.GetIndex());
-                        Debug.Log("above white -> above black");
+                        aboveCell = GetAboveCell(cellSettings.GetIndex());
+                        aboveCellSettings = aboveCell.GetComponent<CellSettings>();
+                        int aboveIndex = aboveCellSettings.GetIndex();
 
-                        aboveCellSettings.SwitchYinYang();
-                        continue;
-                    }
-                    //老阴->少阳，即下黑上黑变为下白上黑
-                    else if (cellSettings.isYin && aboveCellSettings.isYin)
-                    {
-                        // current black -> current white
-                        Debug.Log("current index " + cellSettings.GetIndex());
+                        //少阴->老阴，即下黑上白变为下黑上黑
+                        if (cellSettings.isYin && !aboveCellSettings.isYin)
+                        {
+                            // if above cell is not locked
+                            if (!aboveCellSettings.isLocked)
+                            {
+                                // above white -> above black
+                                Debug.Log("current index " + cellSettings.GetIndex());
+                                Debug.Log("above white -> above black");
 
-                        Debug.Log("current black -> current white");
+                                aboveCellSettings.SwitchYinYang();
+                                continue;
+                            }
+                        }
+                        //老阴->少阳，即下黑上黑变为下白上黑
+                        else if (cellSettings.isYin && aboveCellSettings.isYin)
+                        {
+                            // current black -> current white
+                            Debug.Log("current index " + cellSettings.GetIndex());
 
-                        cellSettings.SwitchYinYang();
-                        continue;
+                            Debug.Log("current black -> current white");
 
-                    }
-                    //少阳->老阳，即下白上黑变为下白上白
-                    else if (!cellSettings.isYin && aboveCellSettings.isYin)
-                    {
-                        // above black -> above white
-                        Debug.Log("current index " + cellSettings.GetIndex());
+                            cellSettings.SwitchYinYang();
+                            continue;
 
-                        Debug.Log("above black -> above white");
+                        }
+                        //少阳->老阳，即下白上黑变为下白上白
+                        else if (!cellSettings.isYin && aboveCellSettings.isYin)
+                        {
+                            // if above cell is not locked
+                            if (!aboveCellSettings.isLocked)
+                            {
+                                // above black -> above white
+                                Debug.Log("current index " + cellSettings.GetIndex());
 
-                        aboveCellSettings.SwitchYinYang();
-                        continue;
+                                Debug.Log("above black -> above white");
 
-                    }
-                    //老阳->少阴，即下白上白变为下黑上白
-                    else if (!cellSettings.isYin && !aboveCellSettings.isYin)
-                    {
-                        // current white -> current black
-                        Debug.Log("current index " + cellSettings.GetIndex());
+                                aboveCellSettings.SwitchYinYang();
+                                continue;
+                            }
+                        }
+                        //老阳->少阴，即下白上白变为下黑上白
+                        else if (!cellSettings.isYin && !aboveCellSettings.isYin)
+                        {
+                            // current white -> current black
+                            Debug.Log("current index " + cellSettings.GetIndex());
 
-                        Debug.Log("current white -> current black");
+                            Debug.Log("current white -> current black");
 
-                        cellSettings.SwitchYinYang();
-                        continue;
+                            cellSettings.SwitchYinYang();
+                            continue;
 
+                        }
                     }
                 }
             }
