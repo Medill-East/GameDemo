@@ -12,6 +12,7 @@ public class MazeGenerator : MonoBehaviour
     public GameObject blackCellPrefab;
     public GameObject whiteCellPrefab;
     public List<GameObject> cells;
+    public Camera mainCamera; // Reference to the Camera component
 
     private int gridSize = 1;
     private int currentRound = 0;
@@ -25,6 +26,11 @@ public class MazeGenerator : MonoBehaviour
     private GameObject aboveCell;
     private CellSettings aboveCellSettings;
 
+    private void Start()
+    {
+        mainCamera = Camera.main;
+    }
+
     public void GenerateMaze()
     {
         // Clear existing grid
@@ -32,8 +38,8 @@ public class MazeGenerator : MonoBehaviour
         gridSize = int.Parse(gridSizeInput.text);
         float cellSize = 1.0f;
 
-        float offsetX = -0.5f * gridSize * cellSize;
-        float offsetY = -0.5f * gridSize * cellSize;
+        float offsetX = -0.5f * (gridSize - 1) * cellSize;
+        float offsetY = -0.5f * (gridSize - 1) * cellSize;
 
         int cellIndex = 1;
 
@@ -63,7 +69,12 @@ public class MazeGenerator : MonoBehaviour
                 cellIndex++;
             }
         }
+
+        // Adjust camera orthographic size based on gridSize
+        float cameraSize = Mathf.Max(gridSize, gridSize) * 0.55f; // Adjust the multiplier as needed
+        mainCamera.orthographicSize = cameraSize;
     }
+
 
     private void ClearGrid()
     {
@@ -246,31 +257,4 @@ public class MazeGenerator : MonoBehaviour
 
         return aboveCell;
     }
-
-    //public void CreateCell(int yinyang, Vector3 position, int cellIndex, bool givenCurrentRound)
-    //{
-    //    if (yinyang == 0)
-    //    {
-    //        cell = Instantiate(blackCellPrefab);
-    //        cellSettings = cell.GetComponent<CellSettings>();
-    //        cellSettings.isYin = true;
-    //    }
-    //    else if (yinyang == 1)
-    //    {
-    //        cell = Instantiate(whiteCellPrefab);
-    //        cellSettings = cell.GetComponent<CellSettings>();
-    //        cellSettings.isYin = false;
-    //    }
-
-    //    cell.transform.parent = transform;
-    //    cell.transform.position = position;
-
-    //    cellSettings = cell.GetComponent<CellSettings>();
-    //    cellSettings.SetIndex(cellIndex);
-
-    //    cellSettings.isCurrentRound = givenCurrentRound;
-
-    //    cells.Add(cell);
-    //}
-
 }
