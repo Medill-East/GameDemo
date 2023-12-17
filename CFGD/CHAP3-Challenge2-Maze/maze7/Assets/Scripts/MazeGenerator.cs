@@ -7,12 +7,27 @@ using UnityEditor.Tilemaps;
 
 public class MazeGenerator : MonoBehaviour
 {
+    public float cellSize = 1.0f;
+
+    private float offsetX;
+    private float offsetY;
+
     public TMPro.TMP_InputField gridSizeInput;
     public TMPro.TMP_Text roundText;
     public GameObject blackCellPrefab;
     public GameObject whiteCellPrefab;
     public List<GameObject> cells;
     public Camera mainCamera; // Reference to the Camera component
+
+    public GameObject rule;
+
+    public float resultCellSize = 0.5f;
+    public GameObject clickedCellsObject;
+    public Transform clickedCellsTrans; // Assign the container transform in the Inspector
+
+    public List<GameObject> clickedCells;
+    public List<int> clickedCellsCode;
+
 
     private int gridSize = 1;
     private int currentRound = 0;
@@ -29,6 +44,7 @@ public class MazeGenerator : MonoBehaviour
     private void Start()
     {
         mainCamera = Camera.main;
+        //rule.SetActive(false);
     }
 
     public void GenerateMaze()
@@ -36,10 +52,9 @@ public class MazeGenerator : MonoBehaviour
         // Clear existing grid
         ClearGrid();
         gridSize = int.Parse(gridSizeInput.text);
-        float cellSize = 1.0f;
 
-        float offsetX = -0.5f * (gridSize - 1) * cellSize;
-        float offsetY = -0.5f * (gridSize - 1) * cellSize;
+        offsetX = -0.5f * (gridSize - 1) * cellSize;
+        offsetY = -0.5f * (gridSize - 1) * cellSize;
 
         int cellIndex = 1;
 
@@ -73,6 +88,8 @@ public class MazeGenerator : MonoBehaviour
         // Adjust camera orthographic size based on gridSize
         float cameraSize = Mathf.Max(gridSize, gridSize) * 0.55f; // Adjust the multiplier as needed
         mainCamera.orthographicSize = cameraSize;
+
+        rule.transform.localScale = new Vector3 (gridSize/16f, gridSize/16f, gridSize/16f);
     }
 
 
@@ -130,6 +147,8 @@ public class MazeGenerator : MonoBehaviour
             cellSettings = cell.GetComponent<CellSettings>();
             cellSettings.IsNotCurrentRound();
         }
+
+        ClearClickedCells();
     }
 
     public void UpdateCellIndex()
@@ -273,4 +292,52 @@ public class MazeGenerator : MonoBehaviour
 
         return aboveCell;
     }
+
+    // Inside the ShowClickedCells method
+    public void ShowClickedCells()
+    {
+        Transform parentTransform = GameObject.FindGameObjectWithTag("ClickedCells").transform;
+        foreach (var clickedCell in clickedCells)
+        {
+            if (clickedCell.GetComponent<CellSettings>().isShowed == false)
+            {
+                // Instantiate a new representation for each clicked cell
+                GameObject clickedResult = Instantiate(clickedCell);
+                clickedResult.transform.SetParent(parentTransform);
+                
+                clickedResult.transform.localScale = new Vector3(resultCellSize, resultCellSize, resultCellSize);
+                Vector3 newPosition = new Vector3(
+                    (gridSize + 1) * 0.5f,
+                    resultCellSize * (cellSize * (clickedCells.IndexOf(clickedCell))) + offsetY,
+                    0);
+                clickedResult.transform.position = newPosition;
+
+                clickedCell.GetComponent<CellSettings>().isShowed = true;
+            }
+            
+        }
+    }
+
+    public void ClearClickedCells()
+    {
+        clickedCells.Clear();
+        clickedCellsCode.Clear();
+
+        foreach (Transform cell in clickedCellsTrans)
+        {
+            Destroy(cell.gameObject);
+        }
+    }
+
+    public void ToggleRule()
+    {
+        if (rule.activeInHierarchy)
+        {
+            rule.SetActive(false);
+        }
+        else 
+        {
+            rule.SetActive(true);
+        }
+    }    
 }
