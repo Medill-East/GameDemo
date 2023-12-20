@@ -3,7 +3,6 @@ using UnityEngine.UI;
 using TMPro;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using UnityEditor.Tilemaps;
 
 public class MazeGenerator : MonoBehaviour
 {
